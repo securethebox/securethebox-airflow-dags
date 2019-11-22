@@ -24,7 +24,7 @@ git:
 - Deploy Helm Chart
 ```
 export HELM_HOST=localhost:44134
-helm install --name "airflow" stable/airflow
+helm install --name "airflow" stable/airflow -f values.yaml
 ```
 
 - Wait for web server to be ready
@@ -34,7 +34,7 @@ helm status "airflow"
 
 - Port forward
 ```
-kubectl port-forward airflow-web-7c586c59bf-w6r5t 8080:8080
+kubectl port-forward airflow-web-5f7bc47587-g8j9j 8080:8080
 ```
 
 - Delete Helm

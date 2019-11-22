@@ -1,4 +1,3 @@
-from controllers.elasticsearch_controller import ElasticSearch
 import airflow
 from airflow.models import DAG
 from airflow.operators.dummy_operator import DummyOperator
