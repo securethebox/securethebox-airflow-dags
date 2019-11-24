@@ -48,10 +48,10 @@ t2 = PythonOperator(
     dag=dag
 )
 
-t4 = DummyOperator(
+t3 = DummyOperator(
     task_id='complete',
     trigger_rule='one_success',
     dag=dag
 )
 
-t1 >> t2 >> t4
+t1 >> t2 >> t3

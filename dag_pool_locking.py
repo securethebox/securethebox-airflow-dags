@@ -13,42 +13,30 @@ args = {
 }
 
 dag = DAG(
-    dag_id='dag_save_xcoms',
+    dag_id='dag_pool_locking',
     default_args=args,
     schedule_interval=None,
     catchup=False,
 )
 
-def pushXcomData(**context):
+def getLocalTimezone(**context):
     date = context['execution_date']
     newdate = local_tz.convert(date)
     print(newdate.strftime("%Y-%m-%d"))
     print(newdate)
     return newdate
 
-def pullXcomData(**context):
-    xcomdata = context['task_instance'].xcom_pull(task_ids='push_xcom')
-    print(xcomdata)
-    
 t1 = PythonOperator(
-    task_id='push_xcom',
-    python_callable=pushXcomData,
+    task_id='get_local_timezone',
+    python_callable=getLocalTimezone,
     provide_context=True,
     dag=dag
 )
 
-t2 = PythonOperator(
-    task_id='pull_xcom',
-    python_callable=pullXcomData,
-    provide_context=True,
-    dag=dag
-)
-
-
-t3 = DummyOperator(
+t4 = DummyOperator(
     task_id='complete',
     trigger_rule='one_success',
     dag=dag
 )
 
-t1 >> t2 >> t3
+t1 >> t4

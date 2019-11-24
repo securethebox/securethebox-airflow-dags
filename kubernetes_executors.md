@@ -25,6 +25,7 @@ git:
 ```
 export HELM_HOST=localhost:44134
 helm install --name "airflow" stable/airflow -f values.yaml
+helm install --name "airflow" ./ -f values.yaml
 ```
 
 - Wait for web server to be ready
@@ -34,15 +35,17 @@ helm status "airflow"
 
 - Port forward
 ```
-kubectl port-forward airflow-web-5f7bc47587-g8j9j 8080:8080
+kubectl port-forward airflow-web-7c586c59bf-2k5rz 8080:8080
 ```
 
 - Delete Helm
 ```
+export HELM_HOST=localhost:44134
 helm delete  --purge "airflow"
 ```
 
-- Update DAG
+- How to reload/update DAG
+  - Make change to git repository
 ```
-helm upgrade airflow-prod charts/airflow --set tag=v0.0.2
+helm upgrade airflow stable/airflow --set tag=v0.0.2
 ```
